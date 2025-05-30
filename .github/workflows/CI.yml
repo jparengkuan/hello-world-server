@@ -39,6 +39,8 @@ jobs:
 
     - name: Debug
       uses: mxschmitt/action-tmate@v3.22
+      with:
+        sudo: auto
 
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v3.0.0
