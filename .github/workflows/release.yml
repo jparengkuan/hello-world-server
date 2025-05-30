@@ -48,7 +48,7 @@ jobs:
 
   repository-dispatch:
     name: "🚀 Repository Dispatch"
-    runs-on: ubuntu-latest
+    runs-on: [checkout, build]
     needs: build
     steps:
       - name: Repository Dispatch
