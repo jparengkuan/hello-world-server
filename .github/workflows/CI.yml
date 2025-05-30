@@ -1,7 +1,11 @@
 name: CI
 
 on:
+  push:
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
+  
 env:
   IMAGE_NAME: hello-world-server
 
@@ -17,6 +21,20 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    
+
+      
+    - name: Extract version from Git tag
+      id: vars
+      run: |
+        VERSION=${GITHUB_REF_NAME#v}
+        echo "tag=${GITHUB_REF_NAME}"   >> "$GITHUB_OUTPUT"
+          
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      uses: docker/build-push-action@v6.18.0
+      with:
+        context: .
+        push: true
+        tags: |
+           ${{ env.IMAGE_NAME }}:latest
+           ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
+          
