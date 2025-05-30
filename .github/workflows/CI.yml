@@ -21,7 +21,6 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       
     - name: Extract version from Git tag
       id: vars
@@ -35,6 +34,6 @@ jobs:
         context: .
         push: true
         tags: |
-           ${{ env.IMAGE_NAME }}:latest
-           ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
+           ${{ github.actor }}/${{ env.IMAGE_NAME }}:latest
+           ${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
           
