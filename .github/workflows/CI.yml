@@ -36,4 +36,14 @@ jobs:
         tags: |
            ${{ github.actor }}/${{ env.IMAGE_NAME }}:latest
            ${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
-          
+
+    - name: Debug
+      uses: mxschmitt/action-tmate@v3.22
+
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v3.0.0
+      with:
+        token: ${{ $secrets.PAT }}
+        repository:  ${{ github.actor }}/${{ env.IMAGE_NAME }}-helm
+        event-type: new-version
+        client-payload: '{"image": "${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}"}'
