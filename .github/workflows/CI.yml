@@ -45,7 +45,7 @@ jobs:
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v3.0.0
       with:
-        token: ${{ $secrets.PAT }}
+        token: ${{ secrets.PAT }}
         repository:  ${{ github.actor }}/${{ env.IMAGE_NAME }}-helm
         event-type: new-version
         client-payload: '{"image": "${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}"}'
